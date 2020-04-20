@@ -7,7 +7,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:11
 
     working_directory: ~/vue-typescript-admin-template
 
@@ -28,4 +28,4 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn lint && yarn build:prod
+      - run: yarn lint && yarn build
