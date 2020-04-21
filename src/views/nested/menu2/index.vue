@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <router-view />
+  <div style="padding:30px;">
+    <el-alert :closable="false" title="menu 2" />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  name: 'App',
+  name: 'Menu2',
 })
 export default class extends Vue {}
 </script>
