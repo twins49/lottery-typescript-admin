@@ -5,11 +5,17 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript',
-    'plugin:prettier/recommended',
+    'eslint:recommended',
+    '@vue/typescript/recommended',
+    '@vue/prettier',
+    '@vue/prettier/@typescript-eslint',
   ],
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
   rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'prettier/prettier': [
       'error',
       {
@@ -21,8 +27,6 @@ module.exports = {
         arrowParens: 'avoid',
       },
     ],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     semi: [2, 'never'],
     'no-plusplus': 'off',
     'class-methods-use-this': 'off',
@@ -48,7 +52,15 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'global-require': 0,
   },
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-  },
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+      ],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 }

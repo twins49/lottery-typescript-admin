@@ -9,7 +9,7 @@ module.exports = {
       : '/', // TODO: Remember to change this to fit your need
   lintOnSave: process.env.NODE_ENV === 'development',
   pwa: {
-    name,
+    name: name,
   },
   pluginOptions: {
     'style-resources-loader': {
