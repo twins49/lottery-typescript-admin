@@ -49,6 +49,7 @@
     "@vue/test-utils": "1.0.0-beta.31",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
+    "commitlint-config-cz": "^0.13.1",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.2.2",
