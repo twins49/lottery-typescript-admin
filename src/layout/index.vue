@@ -47,6 +47,7 @@ export default class extends mixins(ResizeMixin) {
 <style lang="scss" scoped>
 .app-wrapper {
   @include clearfix;
+
   position: relative;
   height: 100%;
   width: 100%;
@@ -74,7 +75,7 @@ export default class extends mixins(ResizeMixin) {
   width: $sideBarWidth !important;
   height: 100%;
   position: fixed;
-  font-size: 0px;
+  font-size: 0;
   top: 0;
   bottom: 0;
   left: 0;
@@ -95,7 +96,7 @@ export default class extends mixins(ResizeMixin) {
 /* for mobile response 适配移动端 */
 .mobile {
   .main-container {
-    margin-left: 0px;
+    margin-left: 0;
   }
 
   .sidebar-container {

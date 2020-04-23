@@ -3,6 +3,9 @@ const path = require('path')
 
 const name = 'Vue Typescript Admin'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const StylelintPlugin = require('stylelint-webpack-plugin')
+
 module.exports = {
   publicPath:
     process.env.NODE_ENV === 'production'
@@ -25,5 +28,17 @@ module.exports = {
     // Provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
     config.set('name', name)
+  },
+  configureWebpack: config => {
+    const plugins = []
+    if (process.env.NODE_ENV === 'development') {
+      plugins.push(
+        new StylelintPlugin({
+          files: ['src/**/*.vue', 'src/assets/**/*.scss'],
+          fix: true, //打开自动修复（谨慎使用！注意上面的配置不要加入js或html文件，会发生问题，js文件请手动修复）
+        }),
+      )
+    }
+    config.plugins = [...config.plugins, ...plugins]
   },
 }

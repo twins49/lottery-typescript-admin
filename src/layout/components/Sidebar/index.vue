@@ -69,7 +69,7 @@ export default class extends Vue {
 
   .el-scrollbar__bar {
     &.is-vertical {
-      right: 0px;
+      right: 0;
     }
 
     &.is-horizontal {

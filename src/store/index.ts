@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { IAppState } from './modules/app'
+import { AppState } from './modules/app'
 import { UserState } from './modules/user'
 
 Vue.use(Vuex)
 
 export interface RootState {
-  app: IAppState
+  app: AppState
   user: UserState
 }
 

@@ -13,7 +13,7 @@ export enum DeviceType {
   Desktop,
 }
 
-export interface IAppState {
+export interface AppState {
   device: DeviceType
   sidebar: {
     opened: boolean
@@ -22,7 +22,7 @@ export interface IAppState {
 }
 
 @Module({ dynamic: true, store, name: 'app' })
-class App extends VuexModule implements IAppState {
+class App extends VuexModule implements AppState {
   public sidebar = {
     opened: getSidebarStatus() !== 'closed',
     withoutAnimation: false,

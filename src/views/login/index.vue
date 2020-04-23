@@ -190,15 +190,15 @@ export default class extends Vue {
     input {
       height: 47px;
       background: transparent;
-      border: 0px;
-      border-radius: 0px;
+      border: 0;
+      border-radius: 0;
       padding: 12px 5px 12px 15px;
       color: $lightGray;
       caret-color: $loginCursorColor;
       -webkit-appearance: none;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $loginBg inset !important;
+        box-shadow: 0 0 0 1000px $loginBg inset !important;
         -webkit-text-fill-color: #fff !important;
       }
     }
@@ -255,7 +255,7 @@ export default class extends Vue {
     .title {
       font-size: 26px;
       color: $lightGray;
-      margin: 0px auto 40px auto;
+      margin: 0 auto 40px auto;
       text-align: center;
       font-weight: bold;
     }
