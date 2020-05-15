@@ -19,7 +19,7 @@ router.beforeEach(async (to: Route, _: Route, next: any) => {
       // If is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
-    } else {
+    } else if (to.path === '/register') {
       // Check whether the user has obtained his permission roles
       if (UserModule.roles.length === 0) {
         try {

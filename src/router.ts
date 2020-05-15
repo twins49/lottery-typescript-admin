@@ -15,7 +15,7 @@ Vue.use(Router)
 */
 
 export default new Router({
-  // mode: 'history',  // Enable this if you need.
+  mode: 'history', // Enable this if you need.
   scrollBehavior: (to, from, savedPosition) => {
     if (savedPosition) {
       return savedPosition
@@ -30,6 +30,12 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
       meta: { hidden: true },
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () =>
+        import(/* webpackChunkName: "register" */ '@/views/login/index.vue'),
     },
     {
       path: '/404',
@@ -168,19 +174,6 @@ export default new Router({
               /* webpackChunkName: "menu2" */ '@/views/nested/menu2/index.vue'
             ),
           meta: { title: 'Menu2' },
-        },
-      ],
-    },
-    {
-      path: 'external-link',
-      component: Layout,
-      children: [
-        {
-          path: 'https://github.com/Armour/vue-typescript-admin-template',
-          meta: {
-            title: 'External Link',
-            icon: 'link',
-          },
         },
       ],
     },

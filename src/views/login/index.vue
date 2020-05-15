@@ -60,8 +60,7 @@
 
       <div style="position:relative">
         <div class="tips">
-          <span> username: admin </span>
-          <span> password: any </span>
+          <span class="register-box" @click="goToRegister">点击注册</span>
         </div>
       </div>
     </el-form>
@@ -80,6 +79,10 @@ import { isValidUsername } from '@/utils/validate'
   name: 'Login',
 })
 export default class extends Vue {
+  private goToRegister() {
+    this.$router.push({ name: 'register' })
+  }
+
   private validateUsername = (rule: any, value: string, callback: Function) => {
     if (!isValidUsername(value)) {
       callback(new Error('Please enter the correct user name'))
@@ -238,6 +241,10 @@ export default class extends Vue {
       &:first-of-type {
         margin-right: 16px;
       }
+    }
+    .register-box {
+      cursor: pointer;
+      color: $registerColor;
     }
   }
 
