@@ -9,7 +9,7 @@
 常见的分类有下面几种：
 
 - build: 影响构建系统或外部依赖关系的更改（示例范围：gulp、broccoli、NPM）。
-- chroe: 其他不修改 src 或 test 文件。
+- chore: 其他不修改 src 或 test 文件。
 - ci: 更改持续集成文件和脚本（示例范围：Travis、Circle、BrowserStack、SauceLabs）。
 - docs: 只是更改文档。
 - feat: 类型为 feat 的提交表示在代码库中新增了一个功能（这和语义化版本中的 MINOR 相对应）。

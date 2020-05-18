@@ -32,7 +32,11 @@ module.exports = {
     'no-plusplus': 'off',
     'class-methods-use-this': 'off',
     // 'lines-between-class-members': 'off',
+    'no-undef-init': 0,
     'no-unused-expressions': 0,
+    'no-unused-vars': 0,
+    'no-unused-func': 0,
+    'no-use-before-define': 0,
     'no-shadow': [
       'error',
       {

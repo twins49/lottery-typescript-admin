@@ -35,7 +35,10 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () =>
-        import(/* webpackChunkName: "register" */ '@/views/login/index.vue'),
+        import(/* webpackChunkName: "register" */ '@/views/register/index.vue'),
+      meta: {
+        title: '注册',
+      },
     },
     {
       path: '/404',

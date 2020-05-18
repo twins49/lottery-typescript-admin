@@ -1,8 +1,4 @@
-import request from '@/utils/request'
+import Request from '@/utils/request'
 
-export const getArticles = (params: any) =>
-  request({
-    url: '/articles',
-    method: 'get',
-    params,
-  })
+export const getArticles = (params: any): any =>
+  Request.get('/articles', params)

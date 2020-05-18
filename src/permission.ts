@@ -7,7 +7,7 @@ import { UserModule } from '@/store/modules/user'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login']
+const whiteList = ['/login', '/register']
 
 router.beforeEach(async (to: Route, _: Route, next: any) => {
   // Start progress bar
@@ -20,6 +20,9 @@ router.beforeEach(async (to: Route, _: Route, next: any) => {
       next({ path: '/' })
       NProgress.done()
     } else if (to.path === '/register') {
+      next({ path: '/register' })
+      NProgress.done()
+    } else {
       // Check whether the user has obtained his permission roles
       if (UserModule.roles.length === 0) {
         try {

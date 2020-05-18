@@ -80,7 +80,7 @@ import { isValidUsername } from '@/utils/validate'
 })
 export default class extends Vue {
   private goToRegister() {
-    this.$router.push({ name: 'register' })
+    this.$router.push({ path: '/register' })
   }
 
   private validateUsername = (rule: any, value: string, callback: Function) => {
