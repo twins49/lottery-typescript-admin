@@ -26,6 +26,26 @@
           placeholder="用户名"
         />
       </el-form-item>
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon name="password" />
+        </span>
+        <el-input
+          :key="passwordType"
+          ref="password"
+          v-model="registerForm.password"
+          :type="passwordType"
+          placeholder="密码"
+          name="password"
+          autocomplete="on"
+          @keyup.enter.native="handleLogin"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon
+            :name="passwordType === 'password' ? 'eye-off' : 'eye-on'"
+          />
+        </span>
+      </el-form-item>
       <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon name="mobile" />
@@ -47,7 +67,7 @@
           ref="verificationCode"
         ></el-input>
         <el-button
-          @click="send"
+          @click="sendCode"
           type="success"
           style="display: inline-block;min-width: 112px;"
           :disabled="(disabled = !show)"
@@ -56,13 +76,29 @@
           <span v-show="!show" class="count">{{ count }} s</span>
         </el-button>
       </el-form-item>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%; margin-bottom:30px;"
+        @click.native.prevent="handleRegister"
+      >
+        注册
+      </el-button>
+      <div style="position:relative">
+        <div class="tips">
+          <span class="register-box" @click="goToLogin">已有账号？请登录</span>
+        </div>
+      </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
+import { sendverifyCode } from '@/api/users'
 import { Component, Vue } from 'vue-property-decorator'
+import { Form as ElForm, Input, MessageBox } from 'element-ui'
 import { isValidRegUsername, isValidMobile } from '@/utils/validate'
+import { UserModule } from '@/store/modules/user'
 
 const TIME_COUNT = 60 //更改倒计时时间
 
@@ -91,7 +127,15 @@ export default class extends Vue {
     }
   }
 
-  send() {
+  private validatePassword = (rule: any, value: string, callback: Function) => {
+    if (value.length < 8) {
+      callback(new Error('密码不能少于8位数'))
+    } else {
+      callback()
+    }
+  }
+
+  private async sendCode() {
     if (!this.timer) {
       this.count = TIME_COUNT
       this.show = false
@@ -104,23 +148,72 @@ export default class extends Vue {
           this.timer = null
         }
       }, 1000)
+      await sendverifyCode({
+        mobile: this.registerForm.mobile,
+      })
     }
+  }
+
+  private handleRegister() {
+    ;(this.$refs.registerForm as ElForm).validate(async (valid: boolean) => {
+      if (valid) {
+        this.loading = true
+        const token = await UserModule.Register(this.registerForm)
+        if (!token || typeof token === 'object') {
+          MessageBox.confirm('注册失败了, 请重新注册', '确定注册', {
+            confirmButtonText: '重新注册',
+            // cancelButtonText: '取消',
+            type: 'warning',
+          }).then(
+            () => {
+              location.reload()
+            },
+            () => {
+              location.reload()
+            },
+          )
+        } else {
+          this.$router.push('/dashboard')
+        }
+      } else {
+        return false
+      }
+    })
+  }
+
+  private goToLogin() {
+    this.$router.push({ path: '/login' })
   }
 
   /* data */
   private show = true // 初始启用按钮
   private count = 0 // 初始化次数
   private timer: any = null
+  private passwordType = 'password'
+  private loading = false
 
   private registerForm = {
     username: '',
     mobile: '',
+    password: '',
     verificationCode: '', // 验证码
   }
 
   private registerRules = {
     username: [{ validator: this.validateRegUsername, trigger: 'blur' }],
     mobile: [{ validator: this.validateMobile, trigger: 'blur' }],
+    password: [{ validator: this.validatePassword, trigger: 'blur' }],
+  }
+
+  private showPwd() {
+    if (this.passwordType === 'password') {
+      this.passwordType = ''
+    } else {
+      this.passwordType = 'password'
+    }
+    this.$nextTick(() => {
+      ;(this.$refs.password as Input).focus()
+    })
   }
 }
 </script>
@@ -158,6 +251,21 @@ export default class extends Vue {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+  }
+  .tips {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
+
+    span {
+      &:first-of-type {
+        margin-right: 16px;
+      }
+    }
+    .register-box {
+      cursor: pointer;
+      color: $registerColor;
+    }
   }
 }
 </style>

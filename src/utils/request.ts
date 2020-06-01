@@ -9,6 +9,7 @@ import { Message, MessageBox } from 'element-ui'
 import qs from 'qs'
 import { UserModule } from '@/store/modules/user'
 
+const BASE_PATH = 'api'
 class Request {
   protected baseURL: any = process.env.VUE_APP_BASE_API
   protected service: any = axios
@@ -37,9 +38,9 @@ class Request {
   // 自定义实例默认值
   protected requestConfig(): void {
     this.axiosRequestConfig = {
-      baseURL: this.baseURL,
+      // baseURL: this.baseURL,
       headers: {
-        timestamp: new Date().getTime(),
+        // timestamp: new Date().getTime(),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       // transformRequest` 允许在向服务器发送前，修改请求数据
@@ -130,12 +131,13 @@ class Request {
               location.reload()
             })
           }
-          return Promise.reject(new Error(response.message || 'Error'))
+          return Promise.reject(response.data)
         } else {
           return response.data
         }
       },
       (error: any) => {
+        console.log('进来这里')
         Message({
           message: error.message,
           type: 'error',
@@ -166,10 +168,15 @@ class Request {
 
   public async post(url: string, params: any = {}, config: object = {}) {
     try {
-      const result = await this.service.post(url, params, config)
-      return result.data
+      const result = await this.service.post(
+        `/${BASE_PATH}/${url}`,
+        params,
+        config,
+      )
+      return result
     } catch (error) {
-      console.error(error)
+      console.error('post error', error)
+      return Promise.reject(error)
     }
   }
 
@@ -191,7 +198,7 @@ class Request {
 
   public async get(url: string, parmas: any = {}, config: object = {}) {
     try {
-      await this.service.get(url, parmas, config)
+      await this.service.get(`/${BASE_PATH}/${url}`, parmas, config)
     } catch (error) {
       console.error(error)
     }

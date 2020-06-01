@@ -1,7 +1,7 @@
 import router from './router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Message } from 'element-ui'
+// import { Message } from 'element-ui'
 import { Route } from 'vue-router'
 import { UserModule } from '@/store/modules/user'
 
@@ -19,27 +19,25 @@ router.beforeEach(async (to: Route, _: Route, next: any) => {
       // If is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
-    } else if (to.path === '/register') {
-      next({ path: '/register' })
-      NProgress.done()
     } else {
+      next()
       // Check whether the user has obtained his permission roles
-      if (UserModule.roles.length === 0) {
-        try {
-          // Get user info, including roles
-          await UserModule.GetUserInfo()
-          // Set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
-        } catch (err) {
-          // Remove token and redirect to login page
-          UserModule.ResetToken()
-          Message.error(err || 'Has Error')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
-        }
-      } else {
-        next()
-      }
+      // if (UserModule.roles.length === 0) {
+      //   try {
+      //     // Get user info, including roles
+      //     await UserModule.GetUserInfo()
+      //     // Set the replace: true, so the navigation will not leave a history record
+      //     next({ ...to, replace: true })
+      //   } catch (err) {
+      //     // Remove token and redirect to login page
+      //     UserModule.ResetToken()
+      //     Message.error(err || 'Has Error')
+      //     next(`/login?redirect=${to.path}`)
+      //     NProgress.done()
+      //   }
+      // } else {
+      //   next()
+      // }
     }
   } else {
     // Has no token

@@ -7,13 +7,26 @@ const name = 'Vue Typescript Admin'
 const StylelintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === 'production'
-      ? '/vue-typescript-admin-template/'
-      : '/', // TODO: Remember to change this to fit your need
+  // publicPath:
+  //   process.env.NODE_ENV === 'production'
+  //     ? '/vue-typescript-admin-template/'
+  //     : '/', // TODO: Remember to change this to fit your need
   lintOnSave: process.env.NODE_ENV === 'development',
   pwa: {
     name: name,
+  },
+  devServer: {
+    proxy: {
+      // 同nginx代理配置 将'/api'的请求代理到target目标设置的<url>去
+      '/api': {
+        target: `http://127.0.0.1:8000`,
+        ws: true, // proxy websockets
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
   },
   pluginOptions: {
     'style-resources-loader': {

@@ -5,7 +5,7 @@ import {
   Mutation,
   getModule,
 } from 'vuex-module-decorators'
-import { login, logout, getUserInfo } from '@/api/users'
+import { login, logout, getUserInfo, registerUser } from '@/api/users'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
 
@@ -48,6 +48,31 @@ class User extends VuexModule implements UserState {
   @Mutation
   private SET_ROLES(roles: string[]) {
     this.roles = roles
+  }
+
+  @Action({ rawError: true })
+  public async Register(userInfo: {
+    username: string
+    password: string
+    mobile: string
+    verificationCode: string
+  }) {
+    const { password, mobile, verificationCode } = userInfo
+    const username = userInfo.username.trim()
+    try {
+      const data = await registerUser({
+        username,
+        password,
+        mobile,
+        code: verificationCode,
+      })
+      const { token } = data
+      setToken(token)
+      this.SET_TOKEN(token)
+      return token
+    } catch (error) {
+      return error
+    }
   }
 
   @Action

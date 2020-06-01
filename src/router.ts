@@ -52,6 +52,7 @@ export default new Router({
       children: [
         {
           path: 'dashboard',
+          name: 'Dashboard',
           component: () =>
             import(
               /* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'
