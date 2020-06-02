@@ -1,5 +1,5 @@
 export const isValidUsername = (str: string) =>
-  ['admin', 'editor'].indexOf(str.trim()) >= 0
+  /^[a-zA-Z0-9_-]{4,16}$/.test(str)
 
 // 用户名正则，4到16位（字母，数字，下划线，减号）
 export const isValidRegUsername = (str: string) =>

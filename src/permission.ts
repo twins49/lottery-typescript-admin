@@ -12,7 +12,6 @@ const whiteList = ['/login', '/register']
 router.beforeEach(async (to: Route, _: Route, next: any) => {
   // Start progress bar
   NProgress.start()
-
   // Determine whether the user has logged in
   if (UserModule.token) {
     if (to.path === '/login') {
