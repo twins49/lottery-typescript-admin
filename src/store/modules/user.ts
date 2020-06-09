@@ -84,12 +84,13 @@ class User extends VuexModule implements UserState {
       setToken(token)
       this.SET_TOKEN(token)
     } catch (error) {
-      console.log('cowu', error)
+      console.log('Login', error)
     }
   }
 
   @Action
   public ResetToken() {
+    // 删除cookie vue_typescript_admin_access_token
     removeToken()
     this.SET_TOKEN('')
     this.SET_ROLES([])
@@ -100,21 +101,20 @@ class User extends VuexModule implements UserState {
     if (this.token === '') {
       throw Error('GetUserInfo: token is undefined!')
     }
-    const { data } = await getUserInfo({
-      /* Your params here */
-    })
-    if (!data) {
-      throw Error('Verification failed, please Login again.')
-    }
-    const { roles, name, avatar, introduction } = data.user
+    const data = await getUserInfo()
+    console.log('GetUserInfo', data)
+    // if (!data) {
+    //   throw Error('Verification failed, please Login again.')
+    // }
+    // const { roles, name, avatar, introduction } = data.user
     // roles must be a non-empty array
-    if (!roles || roles.length <= 0) {
-      throw Error('GetUserInfo: roles must be a non-null array!')
-    }
-    this.SET_ROLES(roles)
-    this.SET_NAME(name)
-    this.SET_AVATAR(avatar)
-    this.SET_INTRODUCTION(introduction)
+    // if (!roles || roles.length <= 0) {
+    //   throw Error('GetUserInfo: roles must be a non-null array!')
+    // }
+    // this.SET_ROLES(roles)
+    // this.SET_NAME(name)
+    // this.SET_AVATAR(avatar)
+    // this.SET_INTRODUCTION(introduction)
   }
 
   @Action
@@ -122,7 +122,8 @@ class User extends VuexModule implements UserState {
     if (this.token === '') {
       throw Error('LogOut: token is undefined!')
     }
-    await logout()
+    // 接口退出
+    // await logout()
     removeToken()
     this.SET_TOKEN('')
     this.SET_ROLES([])

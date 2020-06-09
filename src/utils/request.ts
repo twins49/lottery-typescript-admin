@@ -95,7 +95,7 @@ class Request {
         })
         if (UserModule.token) {
           // config.headers['authorization'] = UserModule.token
-          config.headers['Authorization'] = UserModule.token
+          config.headers['Authorization'] = `Token ${UserModule.token}`
         }
         this.requestLog(config)
         return config

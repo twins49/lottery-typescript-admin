@@ -1,8 +1,8 @@
 import Request from '@/utils/request'
 
-export const getUserInfo = (data: any): any => Request.post('users/info', data)
+export const getUserInfo = (): any => Request.get('users/123/')
 
-export const login = (data: any) => Request.post('users/info/', data)
+export const login = (data: any) => Request.post('login/', data)
 
 export const logout = () => Request.post('users/logout')
 

@@ -173,7 +173,7 @@ export default class extends Vue {
             },
           )
         } else {
-          this.$router.push('/dashboard')
+          this.$router.push('/login')
         }
       } else {
         return false
