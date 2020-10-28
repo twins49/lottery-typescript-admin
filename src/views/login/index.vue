@@ -10,7 +10,7 @@
     >
       <div class="title-container">
         <h3 class="title">
-          Login Form
+          博彩管理系统
         </h3>
       </div>
 
@@ -58,11 +58,11 @@
         登录
       </el-button>
 
-      <div style="position:relative">
+      <!-- <div style="position:relative">
         <div class="tips">
           <span class="register-box" @click="goToRegister">点击注册</span>
         </div>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
@@ -73,26 +73,34 @@ import { Route } from 'vue-router'
 import { Dictionary } from 'vue-router/types/router'
 import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
-import { isValidUsername } from '@/utils/validate'
+import { isValidUsername, isValidPassword } from '@/utils/validate'
 
 @Component({
   name: 'Login',
 })
 export default class extends Vue {
+  // 注册
   private goToRegister() {
     this.$router.push({ path: '/register' })
   }
 
+  // 用户名验证
   private validateUsername = (rule: any, value: string, callback: Function) => {
     if (!isValidUsername(value)) {
-      callback(new Error('Please enter the correct user name'))
+      callback(new Error('请输入4-16位，数字和字母构成的用户名'))
     } else {
       callback()
     }
   }
+
+  // 验证用户密码
   private validatePassword = (rule: any, value: string, callback: Function) => {
-    if (value.length < 6) {
-      callback(new Error('The password can not be less than 6 digits'))
+    if (!isValidPassword(value)) {
+      callback(
+        new Error(
+          '请输入最少8位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符',
+        ),
+      )
     } else {
       callback()
     }

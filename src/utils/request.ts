@@ -7,10 +7,13 @@ import axios, {
 } from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import qs from 'qs'
+
+import settings from '@/config/settings'
 import { UserModule } from '@/store/modules/user'
 
 const BASE_PATH = 'api'
 class Request {
+  protected jwtPrefix: string = settings.JWT_AUTH_HEADER_PREFIX
   protected baseURL: any = process.env.VUE_APP_BASE_API
   protected service: any = axios
   protected pending: Array<{
@@ -18,8 +21,11 @@ class Request {
     cancel: Function
   }> = []
   protected CancelToken: CancelTokenStatic = axios.CancelToken
+
   protected axiosRequestConfig: AxiosRequestConfig = {}
+  // 成功状态码
   protected successCode: Array<number> = [200, 201, 204]
+  // 实例句柄
   private static _instance: Request
 
   constructor() {
@@ -95,7 +101,9 @@ class Request {
         })
         if (UserModule.token) {
           // config.headers['authorization'] = UserModule.token
-          config.headers['Authorization'] = `Token ${UserModule.token}`
+          config.headers[
+            'Authorization'
+          ] = `${this.jwtPrefix} ${UserModule.token}`
         }
         this.requestLog(config)
         return config
@@ -137,7 +145,6 @@ class Request {
         }
       },
       (error: any) => {
-        console.log('进来这里')
         Message({
           message: error.message,
           type: 'error',
@@ -165,6 +172,14 @@ class Request {
       }
     }
   }
+
+  /**
+   *
+   * post
+   * delete
+   * put
+   * get
+   */
 
   public async post(url: string, params: any = {}, config: object = {}) {
     try {

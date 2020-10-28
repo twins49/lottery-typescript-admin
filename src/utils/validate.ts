@@ -9,4 +9,8 @@ export const isValidRegUsername = (str: string) =>
 export const isValidMobile = (str: string) =>
   /^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(str)
 
+// 密码正则 最少8位，包括至少1个大写字母，1个小写字母，1个数字
+export const isValidPassword = (str: string) =>
+  /^\S*(?=\S{8,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])\S*$/.test(str)
+
 export const isExternal = (path: string) => /^(https?:|mailto:|tel:)/.test(path)
