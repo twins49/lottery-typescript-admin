@@ -8,6 +8,7 @@ import {
 import { login, logout, getUserInfo, registerUser } from '@/api/users'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
+import settings from '@/config/settings'
 
 export interface UserState {
   token: string
@@ -15,10 +16,12 @@ export interface UserState {
   avatar: string
   introduction: string
   roles: string[]
+  id: number
 }
 
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements UserState {
+  public id = 0
   public token = getToken() || ''
   public name = ''
   public avatar = ''
@@ -28,6 +31,12 @@ class User extends VuexModule implements UserState {
   @Mutation
   private SET_TOKEN(token: string) {
     this.token = token
+  }
+
+  @Mutation
+  private SET_USER_INFO(userInfo: any) {
+    this.id = userInfo.id
+    this.name = userInfo.username
   }
 
   @Mutation
@@ -67,7 +76,9 @@ class User extends VuexModule implements UserState {
         code: verificationCode,
       })
       const { token } = data
-      setToken(token)
+      setToken(token, {
+        expires: Number(settings.JWT_REFRESH_EXPIRATION_DELTA),
+      })
       this.SET_TOKEN(token)
       return token
     } catch (error) {
@@ -78,14 +89,23 @@ class User extends VuexModule implements UserState {
   @Action
   public async Login(userInfo: { username: string; password: string }) {
     const { password } = userInfo
-    const username = userInfo.username.trim()
+    const userName = userInfo.username.trim()
+    let loginResult = false
     try {
-      const { token } = await login({ username, password })
-      setToken(token)
-      this.SET_TOKEN(token)
+      const { token, id, username } = await login({
+        username: userName,
+        password,
+      })
+      setToken(token) // 把token设置到cookie中
+      this.SET_TOKEN(token) // 把token 设置到 vuex 中
+      this.SET_USER_INFO({ id, username })
+      loginResult = true
     } catch (error) {
       console.log('Login', error)
+      // 要不要清除一下token
+      return loginResult
     }
+    return loginResult
   }
 
   @Action
@@ -123,7 +143,7 @@ class User extends VuexModule implements UserState {
       throw Error('LogOut: token is undefined!')
     }
     // 接口退出
-    // await logout()
+    await logout()
     removeToken()
     this.SET_TOKEN('')
     this.SET_ROLES([])

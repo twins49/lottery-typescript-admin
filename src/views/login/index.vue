@@ -168,6 +168,7 @@ export default class extends Vue {
     })
   }
 
+  // 只要key 不是redirect
   private getOtherQuery(query: Dictionary<string>) {
     return Object.keys(query).reduce((acc, cur) => {
       if (cur !== 'redirect') {

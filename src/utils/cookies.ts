@@ -7,7 +7,8 @@ export const setSidebarStatus = (sidebarStatus: string) =>
   Cookies.set(sidebarStatusKey, sidebarStatus)
 
 // User
-const tokenKey = 'vue_typescript_admin_access_token'
+const tokenKey = 'user_token'
 export const getToken = () => Cookies.get(tokenKey)
-export const setToken = (token: string) => Cookies.set(tokenKey, token)
+export const setToken = (token: string, config: any = {}) =>
+  Cookies.set(tokenKey, token, config)
 export const removeToken = () => Cookies.remove(tokenKey)

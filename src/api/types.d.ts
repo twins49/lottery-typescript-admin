@@ -1,4 +1,4 @@
-export interface IArticleData {
+export interface ArticleData {
   id: number
   status: string
   title: string

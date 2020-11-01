@@ -1,7 +1,8 @@
 // 网站的一些基本配置
-
-const JWT_AUTH_HEADER_PREFIX: string = 'Token'
+const JWT_AUTH_HEADER_PREFIX = 'Token'
+const JWT_REFRESH_EXPIRATION_DELTA = 7
 
 export default {
   JWT_AUTH_HEADER_PREFIX,
+  JWT_REFRESH_EXPIRATION_DELTA,
 }

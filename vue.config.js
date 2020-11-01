@@ -23,7 +23,7 @@ module.exports = {
         ws: true, // proxy websockets
         changeOrigin: true, // 是否跨域
         pathRewrite: {
-          '^/api': '',
+          '^/api': '/api/',
         },
       },
     },

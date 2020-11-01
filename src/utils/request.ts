@@ -125,6 +125,7 @@ class Request {
             type: 'error',
             duration: 5 * 1000,
           })
+          // 401就是token 过期需要重新登录
           if (response.data.code === 401) {
             MessageBox.confirm(
               '你已被登出，可以取消继续留在该页面，或者重新登录',

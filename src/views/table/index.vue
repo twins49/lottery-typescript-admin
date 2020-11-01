@@ -58,7 +58,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getArticles } from '@/api/articles'
-import { IArticleData } from '@/api/types'
+import { ArticleData } from '@/api/types'
 
 @Component({
   name: 'Table',
@@ -77,7 +77,7 @@ import { IArticleData } from '@/api/types'
   },
 })
 export default class extends Vue {
-  private list: IArticleData[] = []
+  private list: ArticleData[] = []
   private listLoading = true
   private listQuery = {
     page: 1,
