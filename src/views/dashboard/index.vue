@@ -24,7 +24,19 @@ export default class extends Vue {
   }
 
   private async created() {
-    await UserModule.GetUserInfo()
+    const result = await UserModule.GetUserInfo()
+    if (result) {
+      const { code, error } = result
+      if (code === '1003') {
+        // token过期了
+        this.$message({
+          message: error,
+          type: 'error',
+        })
+        UserModule.ResetToken()
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      }
+    }
   }
 }
 </script>

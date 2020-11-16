@@ -57,7 +57,7 @@ class Request {
           return data
         },
       ],
-      paramsSerializer: function(params: any) {
+      paramsSerializer: (params: any) => {
         // brackets  //形式：ids[]=1&ids[]=2&ids[]=3
         // indices // 形式： ids[0]=1&aids1]=2&ids[2]=3
         // repeat  // 形式： ids=1&ids=2&id=3
@@ -120,11 +120,11 @@ class Request {
         this.responseLog(response)
         this.removePending(response.config)
         if (this.successCode.indexOf(response.status) === -1) {
-          Message({
-            message: response.data.message || 'Error',
-            type: 'error',
-            duration: 5 * 1000,
-          })
+          // Message({
+          //   message: response.data.message || 'Error',
+          //   type: 'error',
+          //   duration: 5 * 1000,
+          // })
           // 401就是token 过期需要重新登录
           if (response.data.code === 401) {
             MessageBox.confirm(
@@ -183,41 +183,44 @@ class Request {
    */
 
   public async post(url: string, params: any = {}, config: object = {}) {
-    try {
-      const result = await this.service.post(
-        `/${BASE_PATH}/${url}`,
-        params,
-        config,
-      )
-      return result
-    } catch (error) {
-      console.error('post error', error)
-      return Promise.reject(error)
-    }
+    // try {
+    //   const result = await this.service.post(
+    //     `/${BASE_PATH}/${url}`,
+    //     params,
+    //     config,
+    //   )
+    //   return result
+    // } catch (error) {
+    //   return Promise.reject(error)
+    // }
+    return await this.service.post(`/${BASE_PATH}/${url}`, params, config)
   }
 
   public async delete(url: string, config: object = {}) {
-    try {
-      await this.service.delete(url, config)
-    } catch (error) {
-      console.error(error)
-    }
+    // try {
+    //   await this.service.delete(url, config)
+    // } catch (error) {
+    //   console.error(error)
+    // }
+    return await this.service.delete(url, config)
   }
 
   public async put(url: string, data: any = {}, config: object = {}) {
-    try {
-      await this.service.put(url, qs.stringify(data), config)
-    } catch (error) {
-      console.error(error)
-    }
+    // try {
+    //   await this.service.put(url, qs.stringify(data), config)
+    // } catch (error) {
+    //   console.error(error)
+    // }
+    return await this.service.put(url, qs.stringify(data), config)
   }
 
-  public async get(url: string, parmas: any = {}, config: object = {}) {
-    try {
-      await this.service.get(`/${BASE_PATH}/${url}`, parmas, config)
-    } catch (error) {
-      console.error(error)
-    }
+  public async get(url: string, params: any = {}, config: object = {}) {
+    // try {
+    //   await this.service.get(`/${BASE_PATH}/${url}`, { params, ...config })
+    // } catch (error) {
+    //   console.error(error)
+    // }
+    return await this.service.get(`/${BASE_PATH}/${url}`, { params, ...config })
   }
 
   protected requestLog(request: any): void {

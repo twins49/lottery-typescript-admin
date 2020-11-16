@@ -11,6 +11,7 @@ import App from '@/App.vue'
 import store from '@/store'
 import router from '@/router'
 import '@/icons/components'
+// 权限
 import '@/permission'
 
 Vue.use(ElementUI)

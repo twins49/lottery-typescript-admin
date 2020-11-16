@@ -24,6 +24,7 @@ class User extends VuexModule implements UserState {
   public id = 0
   public token = getToken() || ''
   public name = ''
+  public userName = ''
   public avatar = ''
   public introduction = ''
   public roles: string[] = []
@@ -31,6 +32,16 @@ class User extends VuexModule implements UserState {
   @Mutation
   private SET_TOKEN(token: string) {
     this.token = token
+  }
+
+  @Mutation
+  private SET_ID(id: number) {
+    this.id = id
+  }
+
+  @Mutation
+  private SET_USERNAME(userName: string) {
+    this.userName = userName
   }
 
   @Mutation
@@ -92,13 +103,12 @@ class User extends VuexModule implements UserState {
     const userName = userInfo.username.trim()
     let loginResult = false
     try {
-      const { token, id, username } = await login({
+      const { token } = await login({
         username: userName,
         password,
       })
       setToken(token) // 把token设置到cookie中
       this.SET_TOKEN(token) // 把token 设置到 vuex 中
-      this.SET_USER_INFO({ id, username })
       loginResult = true
     } catch (error) {
       console.log('Login', error)
@@ -118,16 +128,14 @@ class User extends VuexModule implements UserState {
 
   @Action
   public async GetUserInfo() {
-    if (this.token === '') {
-      throw Error('GetUserInfo: token is undefined!')
+    try {
+      await getUserInfo(this.token)
+      return null
+    } catch (error) {
+      return error
     }
-    const data = await getUserInfo()
-    console.log('GetUserInfo', data)
-    // if (!data) {
-    //   throw Error('Verification failed, please Login again.')
-    // }
     // const { roles, name, avatar, introduction } = data.user
-    // roles must be a non-empty array
+    // // roles must be a non-empty array
     // if (!roles || roles.length <= 0) {
     //   throw Error('GetUserInfo: roles must be a non-null array!')
     // }

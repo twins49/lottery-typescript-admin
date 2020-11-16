@@ -7,6 +7,7 @@ import { UserModule } from '@/store/modules/user'
 
 NProgress.configure({ showSpinner: false })
 
+// 白名单
 const whiteList = ['/login', '/register']
 
 router.beforeEach(async (to: Route, _: Route, next: any) => {
@@ -20,19 +21,24 @@ router.beforeEach(async (to: Route, _: Route, next: any) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      console.log('to', to)
       // Check whether the user has obtained his permission roles
-      // try {
-      //   // Get user info, including roles
-      // await UserModule.GetUserInfo()
-      // Set the replace: true, so the navigation will not leave a history record
-      // next({ ...to, replace: true })
-      // } catch (err) {
-      //   // Remove token and redirect to login page
-      //   UserModule.ResetToken()
-      //   Message.error(err || 'Has Error')
-      //   // next(`/login?redirect=${to.path}`)
-      //   NProgress.done()
+
+      // if (UserModule.roles.length === 0) {
+      //   try {
+      //     // Get user info, including roles
+      //     console.log('223232')
+      //     await UserModule.GetUserInfo()
+      //     // Set the replace: true, so the navigation will not leave a history record
+      //     next({ ...to, replace: true })
+      //   } catch (err) {
+      //     // Remove token and redirect to login page
+      //     UserModule.ResetToken()
+      //     // Message.error(err || 'Has Error')
+      //     next(`/login?redirect=${to.path}`)
+      //     NProgress.done()
+      //   }
+      // } else {
+      //   next()
       // }
       next()
     }

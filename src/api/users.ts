@@ -1,6 +1,7 @@
 import Request from '@/utils/request'
 
-export const getUserInfo = (): any => Request.get('users/123/')
+export const getUserInfo = (token: string): any =>
+  Request.get(`users/123/`, { token })
 
 export const login = (data: any) => Request.post('login/', data)
 
