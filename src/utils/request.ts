@@ -126,16 +126,12 @@ class Request {
           //   duration: 5 * 1000,
           // })
           // 401就是token 过期需要重新登录
-          if (response.data.code === 401) {
-            MessageBox.confirm(
-              '你已被登出，可以取消继续留在该页面，或者重新登录',
-              '确定登出',
-              {
-                confirmButtonText: '重新登录',
-                cancelButtonText: '取消',
-                type: 'warning',
-              },
-            ).then(() => {
+          if (response.status === 401) {
+            MessageBox.confirm('你已被登出，请重新登录', '确定登出', {
+              confirmButtonText: '重新登录',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
               UserModule.ResetToken()
               location.reload()
             })

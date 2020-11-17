@@ -25,6 +25,7 @@ export default class extends Vue {
 
   private async created() {
     const result = await UserModule.GetUserInfo()
+    // 有结果集就是错误
     if (result) {
       const { code, error } = result
       if (code === '1003') {

@@ -13,7 +13,7 @@
         trigger="click"
       >
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
+          <img :src="avatar" class="user-avatar" />
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -62,6 +62,12 @@ import Hamburger from '@/components/Hamburger/index.vue'
   },
 })
 export default class extends Vue {
+  /* datas */
+
+  private man: any = require('@/assets/images/boyPhoto.jpg')
+
+  private woment: any = require('@/assets/images/womenPhoto.jpg')
+
   get sidebar() {
     return AppModule.sidebar
   }
@@ -71,15 +77,15 @@ export default class extends Vue {
   }
 
   get avatar() {
-    return UserModule.avatar
+    return UserModule.gender === 'female' ? this.woment : this.man
   }
 
   private toggleSideBar() {
     AppModule.ToggleSideBar(false)
   }
 
-  private async logout() {
-    await UserModule.LogOut()
+  private logout() {
+    UserModule.LogOut()
     this.$router.push(`/login?redirect=${this.$route.fullPath}`)
   }
 }

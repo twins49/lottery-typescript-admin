@@ -153,7 +153,12 @@ export default class extends Vue {
     ;(this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
       if (valid) {
         this.loading = true
-        await UserModule.Login(this.loginForm)
+        const loginResult = await UserModule.Login(this.loginForm)
+        if (!loginResult) {
+          this.loading = false
+          this.$message.error('账号或者密码错误，请重试')
+          return
+        }
         this.$router.push({
           path: this.redirect || '/',
           query: this.otherQuery,
